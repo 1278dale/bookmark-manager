@@ -1,3 +1,5 @@
+require 'tag'
+
 class Link
 
   include DataMapper::Resource
@@ -5,12 +7,14 @@ class Link
   property :id,       Serial # means
   property :title,    String
   property :url,      String
+  has n, :tags, :through => Resource
 
 end 
 
 
 # # This class corresponds to a table in the database
 # # We can use it to manipulate the data
+
 # class Link
 
 #   # this makes the instances of this class Datamapper resources
