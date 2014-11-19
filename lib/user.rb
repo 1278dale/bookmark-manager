@@ -1,4 +1,4 @@
-require 'bcrpyt'
+require 'bcrypt'
 
 class User
 

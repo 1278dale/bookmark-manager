@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'user'
 
 
 feature "user signs up" do
@@ -14,18 +13,28 @@ feature "user signs up" do
   # However, let's not worry about this yet
   # to keep the example simple.
 
-  scenario "when being logged out" do
-    expect{ sign_up }.to change(User, :count).by(1)
+  scenario "when being logged out" do    
+    lambda { sign_up }.should change(User, :count).by(1)    
     expect(page).to have_content("Welcome, alice@example.com")
-    expect(User.first.email).to eq("alice@example.com")
+    expect(User.first.email).to eq("alice@example.com")        
   end
 
+
+
+#   def sign_up(email = "alice@example.com", password = "oranges!")
+#     password = "oranges!"
+#     visit '/users/new'
+#     expect(page.status_code).to eq(200)
+#     fill_in :email, :with => email
+#     fill_in :password, :with => password
+#     click_button "Sign up"
+#   end
+# end
   def sign_up(email = "alice@example.com", password = "oranges!")
-    password = "oranges!"
     visit '/users/new'
-    expect(page.status_code).to eq(200)
     fill_in :email, :with => email
     fill_in :password, :with => password
     click_button "Sign up"
   end
+
 end
