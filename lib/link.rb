@@ -1,4 +1,5 @@
-require 'tag'
+require_relative 'tag'
+require 'data_mapper'
 
 class Link
 

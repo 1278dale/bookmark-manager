@@ -5,12 +5,11 @@ require './lib/tag'
 require './lib/user'
 require_relative 'helpers/application'
 require_relative 'data_mapper_setup'
-require 'capybara'
 
 enable :sessions
 set :session_secret, 'super secret'
 
-# set :views, Proc.new{File.join(root, 'views')}
+set :views, Proc.new{File.join(root, 'views')}
 
 # env = ENV["RACK_ENV"] || "development"
 # # we're telling datamapper to use a postgres database on localhost. The name will be "bookmark_manager_test" or "bookmark_manager_development" depending on the environment
@@ -50,28 +49,21 @@ get '/users/new' do
   # we need the quotes because otherwise
   # ruby would divide the symbol :users by the 
   # variable new (which makes no sense)
+  @user = User.new
   erb :"users/new"
 end
 
-post '/users' do
-  User.create(:email => params[:email],
+post '/users/new' do
+  @user = User.create(:email => params[:email],
               :password => params[:password])
-  session[:user_id] = user.id
+  session[:user_id] = @user.id
   redirect to('/')
 end
 
-# helpers do
+post '/users' do
+  user = User.create(:email => params[:email], :password => params[:password],
+                     :password_confirmation => params[:password_confirmation])
+  session[:user_id] = @user.id
+  redirect to('/')
+  end
 
-#   def current_user
-#     @current_user ||=User.get(session[:user_id]) if session[:user_id]
-#   end
-# end
-#  (MIGHT NOT BE NEEDED)
-
-
-
-# gets '/tags/:text' do
-#   tag = Tag.first(:text => params[:text])
-#   @links = tag ? tag.links : []
-#   erb :index
-#   end
