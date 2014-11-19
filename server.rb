@@ -1,6 +1,9 @@
 require 'data_mapper'
 require 'sinatra'
 
+enable :sessions
+set :session_secret, 'super secret'
+
 set :views, Proc.new{File.join(root, 'views')}
 
 env = ENV["RACK_ENV"] || "development"
@@ -29,3 +32,29 @@ post '/links' do
   Link.create(:url => url, :title => title, :tags => tags)
   redirect to('/')
 end
+
+get '/tags/:text' do
+  tag = Tag.first(:text => params[:text])
+  @links = tag ? tag.links : []
+  erb :index
+end
+
+get '/users/new' do
+  #note the view is in views/users/new.erb
+  # we need the quotes because otherwise
+  # ruby would divide the symbol :users by the 
+  # variable new (which makes no sense)
+  erb :"users/new"
+end
+
+post '/users' do
+  User.create(:email => params[:email]
+              :password => params[:password])
+  redirect to('/')
+end
+
+# gets '/tags/:text' do
+#   tag = Tag.first(:text => params[:text])
+#   @links = tag ? tag.links : []
+#   erb :index
+#   end
