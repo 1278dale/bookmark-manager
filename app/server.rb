@@ -53,17 +53,19 @@ get '/users/new' do
   erb :"users/new"
 end
 
-post '/users/new' do
-  @user = User.create(:email => params[:email],
-              :password => params[:password])
-  session[:user_id] = @user.id
-  redirect to('/')
-end
+# post '/users/new' do
+#   @user = User.new
+#   erb :"users/new"
+#   # @user = User.create(:email => params[:email],
+#   #             :password => params[:password])
+#   # session[:user_id] = @user.id
+#   # redirect to('/')
+# end
 
 post '/users' do
-  user = User.create(:email => params[:email], :password => params[:password],
+  @user = User.create(:email => params[:email], :password => params[:password],
                      :password_confirmation => params[:password_confirmation])
   session[:user_id] = @user.id
   redirect to('/')
-  end
+end
 

@@ -21,18 +21,18 @@ feature "user signs up" do
 
 
 
-  def sign_up(email = "alice@example.com", password = "oranges!")
-    visit '/users/new'
-    fill_in :email, :with => email
-    fill_in :password, :with => password
-    click_button "Sign up"
-  end
+  # def sign_up(email = "alice@example.com", password = "oranges!")
+  #   visit '/users/new'
+  #   fill_in :email, :with => email
+  #   fill_in :password, :with => password
+  #   click_button "Sign up"
+  # end
 
   scenario "with a password that doesn't match" do
     expect{ sign_up('a@a.com', 'pass', 'wrong') }.to change(User, :count).by(0)
   end
 
-  def sign_up(email = "alice@example.com", password = "oranges!", password_confirmation = "oranges")
+  def sign_up(email = "alice@example.com", password = "oranges!", password_confirmation = "oranges!")
     visit '/users/new'
     fill_in :email, :with => email
     fill_in :password, :with => password
