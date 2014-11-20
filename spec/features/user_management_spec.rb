@@ -20,17 +20,12 @@ feature "user signs up" do
     end
 
 
-
-  # def sign_up(email = "alice@example.com", password = "oranges!")
-  #   visit '/users/new'
-  #   fill_in :email, :with => email
-  #   fill_in :password, :with => password
-  #   click_button "Sign up"
-  # end
-
   scenario "with a password that doesn't match" do
     expect{ sign_up('a@a.com', 'pass', 'wrong') }.to change(User, :count).by(0)
+    expect(current_path).to eq('/users')
+    expect(page).to have_content("Sorry, your passwords don't match")
   end
+  # This test expects the website to stay at /users, instead of navigating to the home page (note the use of the current_path helper, provided by capybara). The reason is that we are submitting the form to /users and we don't want the redirection to happen if the user is not saved because we will lose the unsaved data.
 
   def sign_up(email = "alice@example.com", password = "oranges!", password_confirmation = "oranges!")
     visit '/users/new'
